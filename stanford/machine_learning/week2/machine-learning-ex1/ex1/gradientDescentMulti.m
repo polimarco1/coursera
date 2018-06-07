@@ -20,12 +20,10 @@ for iter = 1:num_iters
 
     s = zeros(size(theta, 1), 1);
     for i = 1:m
+        s = s + (theta'*X(i,:)'-y(i))*X(i, :)';
+    end
 
-
-
-
-
-
+    theta = theta - alpha/m*s;
 
 
     % ============================================================
