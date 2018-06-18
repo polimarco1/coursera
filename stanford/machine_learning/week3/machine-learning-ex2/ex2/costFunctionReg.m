@@ -37,7 +37,7 @@ J = J + sigma;
 grad = ((H-y')*X)'/m;
 
 for i = 2:size(theta),
-    grad(i) = (lambda/m)*theta(i);
+    grad(i) = grad(i) + (lambda/m)*theta(i);
 
 end
 
