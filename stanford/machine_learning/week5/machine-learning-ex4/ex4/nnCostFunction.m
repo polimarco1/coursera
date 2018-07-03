@@ -42,24 +42,41 @@ Theta2_grad = zeros(size(Theta2));
 
 X = [ ones(size(X, 1), 1) X ];
 
+% using loop
+%for i = 1:m,
+
+%    z1 = Theta1*X(i,:)';
+%    a2 = sigmoid(z1);
+
+%    a2 = [ 1; a2 ];
+%    z2 = Theta2*a2;
+%    a3 = sigmoid(z2);
+
+%    yk = zeros(num_labels, 1);
+%    yk(y(i)) = 1;
+
+%    J = J + sum( -yk.*log(a3) - (1 - yk).*log(1 - a3) );
+
+
+%end
+
+%J = J/m;
+
+
+% vectorized
+z1 = Theta1*X';
+a2 = sigmoid(z1);
+
+a2 = [ones(1, size(a2, 2)); a2];
+z2 = Theta2*a2;
+a3 = sigmoid(z2);
+
+yk = zeros(m, num_labels);
 for i = 1:m,
-
-    z1 = Theta1*X(i,:)';
-    a2 = sigmoid(z1);
-
-    a2 = [ 1; a2 ];
-    z2 = Theta2*a2;
-    a3 = sigmoid(z2);
-
-    yk = zeros(num_labels, 1);
-    yk(y(i)) = 1;
-
-   J = J + sum( -yk.*log(a3) - (1 - yk).*log(1 - a3) );
-
-
+    yk(i, y(i)) = 1;
 end
 
-J = J/m;
+J = sum( sum( ( -yk.*log(a3') - (1 - yk).*log(1-a3') ) , 1 ) ) / m  ;
 
 
 % ============================================================================
