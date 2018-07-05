@@ -40,7 +40,6 @@ Theta2_grad = zeros(size(Theta2));
 %         computed in ex4.m
 
 X = [ ones(size(X, 1), 1) X ];
-a1 = X;
 
 % using loop
 %for i = 1:m,
@@ -113,11 +112,12 @@ J = J + ( lambda/(2*m) ) * sigma;
 %               first time.
 
 
+a1 = X;
+
 d3 = ( a3 - yk' );
 
 d2 = ( Theta2'*d3 ) .* ( a2.*(1-a2) );
 d2 = d2(2:end, :);
-%a2 = a2(2:end, :);
 
 Theta2_grad = ( d3*(a2)' ) / m;
 Theta1_grad = ( d2*(a1) ) / m;
@@ -132,22 +132,11 @@ Theta1_grad = ( d2*(a1) ) / m;
 %               and Theta2_grad from Part 2.
 %
 
+Theta1_grad = Theta1_grad + (lambda/m) * ...
+                                [ zeros(size(Theta1, 1), 1) Theta1(:, 2:end) ];
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Theta2_grad = Theta2_grad + (lambda/m) * ...
+                                [ zeros(size(Theta2, 1), 1) Theta2(:, 2:end) ];
 
 
 % -------------------------------------------------------------
