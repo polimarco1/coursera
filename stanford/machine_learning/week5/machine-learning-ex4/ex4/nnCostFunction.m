@@ -39,8 +39,8 @@ Theta2_grad = zeros(size(Theta2));
 %         cost function computation is correct by verifying the cost
 %         computed in ex4.m
 
-
 X = [ ones(size(X, 1), 1) X ];
+a1 = X;
 
 % using loop
 %for i = 1:m,
@@ -64,19 +64,19 @@ X = [ ones(size(X, 1), 1) X ];
 
 
 % vectorized
-z1 = Theta1*X';
-a2 = sigmoid(z1);
+z2 = Theta1*X';
+a2 = sigmoid(z2);
 
 a2 = [ones(1, size(a2, 2)); a2];
-z2 = Theta2*a2;
-a3 = sigmoid(z2);
+z3 = Theta2*a2;
+a3 = sigmoid(z3);
 
 yk = zeros(m, num_labels);
 for i = 1:m,
     yk(i, y(i)) = 1;
 end
 
-J = sum( sum( ( -yk.*log(a3') - (1 - yk).*log(1-a3') ) , 1 ) ) / m  ;
+J = sum( sum( ( -yk.*log(a3)' - (1 - yk).*log(1-a3)' ) , 1 ) ) / m  ;
 
 
 sigma = 0;
@@ -111,6 +111,18 @@ J = J + ( lambda/(2*m) ) * sigma;
 %         Hint: We recommend implementing backpropagation using a for-loop
 %               over the training examples if you are implementing it for the
 %               first time.
+
+
+d3 = ( a3 - yk' );
+
+d2 = ( Theta2'*d3 ) .* ( a2.*(1-a2) );
+d2 = d2(2:end, :);
+%a2 = a2(2:end, :);
+
+Theta2_grad = ( d3*(a2)' ) / m;
+Theta1_grad = ( d2*(a1) ) / m;
+
+
 %
 % Part 3: Implement regularization with the cost function and gradients.
 %
