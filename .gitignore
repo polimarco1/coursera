@@ -4,3 +4,5 @@
 /Material
 /Statistics_R
 *.un~
+.gitignore
+
