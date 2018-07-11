@@ -20,10 +20,18 @@ grad = zeros(size(theta));
 %
 
 
-J = ( 1/(2*m) ) * sum( ( X*theta - y ).^2 );
+% Calculatin the J and the Grad without the Regularization
+J = sum( ( X*theta - y ).^2 ) / (2*m);
+
+grad = ( ( X*theta - y )' * X )' / m;
+
 
 theta(1, :) = 0;
+
 J = J + (lambda/(2*m))*( sum( theta.^2 ) );
+
+grad = grad + ( (lambda/m)*(theta) );
+
 
 
 % =========================================================================
